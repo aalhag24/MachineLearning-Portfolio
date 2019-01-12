@@ -328,3 +328,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+Part 1 - Data Preprocessing/.DS_Store
+.gitignore
+1 - Data Preprocessing/.DS_Store
