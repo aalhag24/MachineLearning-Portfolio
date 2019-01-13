@@ -331,3 +331,6 @@ ASALocalRun/
 Part 1 - Data Preprocessing/.DS_Store
 .gitignore
 1 - Data Preprocessing/.DS_Store
+.Rproj.user
+MachineLearning-Portfolio.Rproj
+.Rhistory
