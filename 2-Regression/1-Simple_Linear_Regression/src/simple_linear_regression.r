@@ -3,8 +3,6 @@
 # Path to the file and Libraries
 Path = 'MachineLearning-Portfolio/2-Regression/1-Simple_Linear_Regression/bin/Salary_Data.csv'
 #install.packages('caTools', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-#install.packages("tidyverse", repos = "http://cran.us.r-project.org", dependencies = TRUE)
-#install.packages("Hmisc", repos = "http://cran.us.r-project.org",  dependencies = TRUE)
 #install.packages("lme4", repos = "http://cran.us.r-project.org",  dependencies = TRUE)
 #install.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 library(caTools, help, pos = 2, lib.loc = NULL)
