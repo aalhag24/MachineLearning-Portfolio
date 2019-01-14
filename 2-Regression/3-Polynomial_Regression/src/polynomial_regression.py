@@ -78,3 +78,13 @@ plt.title('Truth or Bluff Salary Tester (Degree 4 Poly)')
 plt.xlabel('Position Level')
 plt.ylabel('Salary')
 plt.show()
+
+# Predicting a new result with Linear Regression
+print(lin_reg.predict([[6.5]]))
+
+# Predicting a new result with Polynomial Regression
+print(lin_reg_deg_2.predict(poly_reg_deg_2.fit_transform([[6.5]])))
+
+print(lin_reg_deg_3.predict(poly_reg_deg_3.fit_transform([[6.5]])))
+
+print(lin_reg_deg_4.predict(poly_reg_deg_4.fit_transform([[6.5]])))
