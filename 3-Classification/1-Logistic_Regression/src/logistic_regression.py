@@ -58,7 +58,7 @@ plt.ylabel('Estimated Salary')
 plt.legend()
 LogisticRegressionPlotTraining.show()
 
-LogisticRegressionPlotTraining.savefig(BinPath + '\Logistic_Regrssion_Training_PY.png')
+LogisticRegressionPlotTraining.savefig(BinPath + '\Logistic_Regression_Training_PY.png')
 
 
 # Visualization the test set
@@ -81,4 +81,4 @@ plt.ylabel('Estimated Salary')
 plt.legend()
 plt.show()
 
-LogisticRegressionPlotTesting.savefig(BinPath + '\Logistic_Regrssion_Testing_PY.png')
+LogisticRegressionPlotTesting.savefig(BinPath + '\Logistic_Regression_Testing_PY.png')
