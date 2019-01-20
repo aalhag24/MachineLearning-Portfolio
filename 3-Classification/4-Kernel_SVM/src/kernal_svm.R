@@ -4,7 +4,7 @@
 BinPath = 'MachineLearning-Portfolio/3-Classification/4-Kernel_SVM/bin'
 FilePath = paste(BinPath, '/Social_Network_Ads.csv', sep='')
 #install.packages('caTools', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-#nstall.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#install.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 #install.packages('ElemStatLearn', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 #install.packages('e1071', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 
