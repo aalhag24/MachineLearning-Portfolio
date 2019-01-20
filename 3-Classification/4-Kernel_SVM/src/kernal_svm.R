@@ -4,7 +4,7 @@
 BinPath = 'MachineLearning-Portfolio/3-Classification/4-Kernel_SVM/bin'
 FilePath = paste(BinPath, '/Social_Network_Ads.csv', sep='')
 #install.packages('caTools', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-#install.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#nstall.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 #install.packages('ElemStatLearn', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 #install.packages('e1071', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 
@@ -57,7 +57,7 @@ TrainingPlot <- plot(set[, -3],
 contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
 points(grid_set, pch = '.', col = ifelse(y_grid == 1, 'springgreen3', 'tomato'))
 points(set, pch = 21, bg = ifelse(set[, 3] == 1, 'green4', 'red3'))
-ggsave("KernalSVM_Training_R.png", plot=TrainingPlot, path = BinPath)
+ggsave("/KernalSVM_Training_R.png", plot=TrainingPlot, path=BinPath)
 
 # Visualising the Test set results
 set = test_set
