@@ -1,8 +1,6 @@
 # Natural Language Processing
 
 # Importing the Librairies
-import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import re
@@ -16,9 +14,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.naive_bayes import GaussianNB
-
-from matplotlib.colors import ListedColormap
-
 
 # Import the data
 BinPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'bin'))
