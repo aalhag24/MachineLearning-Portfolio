@@ -59,5 +59,5 @@ cm = table(test_set[, 692], y_pred)
 #       Recall (measuring completeness) 
 # Recall = TP / (TP + FN)
 
-#       and the F1 Score (compromise between Precision and Recall)
-# F1 Score = 2 * Precision * Recall / (Precision + Recall) */
+#       F1 Score (compromise between Precision and Recall)
+# F1_Score = 2 * Precision * Recall / (Precision + Recall) */
