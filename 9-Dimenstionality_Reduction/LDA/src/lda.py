@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 31 10:18:33 2019
+Created on Thu Jan 31 12:18:33 2019
 
 @author: Ahmed Alhag
 """
 
-# Principle Component Analysis
+# Linear Discriminant Analysis
 
 # Import Libraries
 import numpy as np
@@ -39,11 +39,10 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 # Creating the PCA
-from sklearn.decomposition import PCA
-pca = PCA(n_components = 2)
-X_train = pca.fit_transform(X_train)
-X_test = pca.transform(X_test)
-explained_variance = pca.explained_variance_ratio_
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+lda = LDA(n_components = 2)
+X_train = lda.fit_transform(X_train, Y_train)
+X_test = lda.transform(X_test)
 
 # Fitting Logistic Regression to the Training set
 from sklearn.linear_model import LogisticRegression
@@ -60,10 +59,10 @@ cm = confusion_matrix(Y_test, Y_pred)
 # Visualization the training set
 from matplotlib.colors import ListedColormap
 X_set, Y_set = X_train, Y_train
-X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
-                     np.arange(start=X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
+X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop=X_set[:, 0].max() + 1, step=0.01),
+                     np.arange(start=X_set[:, 1].min() - 1, stop=X_set[:, 1].max() + 1, step=0.01))
 
-PrincipleComponentAnalysis_Training = plt.figure(1)
+LinearDiscriminantAnalysisTraining = plt.figure(1)
 plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
              alpha = 0.75, cmap = ListedColormap(('red', 'green', 'blue')))
 plt.xlim(X1.min(), X1.max())
@@ -72,12 +71,12 @@ for i,j in enumerate(np.unique(Y_set)):
     plt.scatter(X_set[Y_set == j,0], X_set[Y_set == j,1],
                 c = ListedColormap(('red', 'green', 'blue'))(i), 
                 label = j)
-plt.title('Principle Component Analysis (Training set)')
-plt.xlabel('PC1')
-plt.ylabel('PC2')
+plt.title('Linear Discriminant Analysis (Training set)')
+plt.xlabel('LD1')
+plt.ylabel('LD2')
 plt.legend()
-PrincipleComponentAnalysis_Training.show()
-PrincipleComponentAnalysis_Training.savefig(BinPath + '\PCA_Training_PY.png')
+LinearDiscriminantAnalysisTraining.show()
+LinearDiscriminantAnalysisTraining.savefig(BinPath + '\LDA_Training_PY.png')
 
 
 # Visualization the test set
@@ -85,7 +84,7 @@ X_set, Y_set = X_test, Y_test
 X1, X2 = np.meshgrid(np.arange(start=X_set[:, 0].min() - 1, stop = X_set[:, 0].max() + 1, step = 0.01),
                      np.arange(start=X_set[:, 1].min() - 1, stop = X_set[:, 1].max() + 1, step = 0.01))
 
-PrincipleComponentAnalysis_Testing = plt.figure(2)
+LinearDiscriminantAnalysisTesting = plt.figure(2)
 plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),
              alpha = 0.75, cmap = ListedColormap(('red', 'green', 'blue')))
 plt.xlim(X1.min(), X1.max())
@@ -94,9 +93,9 @@ for i,j in enumerate(np.unique(Y_set)):
     plt.scatter(X_set[Y_set == j,0], X_set[Y_set == j,1],
                 c = ListedColormap(('red', 'green', 'blue'))(i), 
                 label = j)
-plt.title('Principle Component Analysis (Testing set)')
-plt.xlabel('PC1')
-plt.ylabel('PC2')
+plt.title('Linear Discriminant Analysis (Testing set)')
+plt.xlabel('LD1')
+plt.ylabel('LD2')
 plt.legend()
 plt.show()
-PrincipleComponentAnalysis_Testing.savefig(BinPath + '\PCA_Testing_PY.png')
+LinearDiscriminantAnalysisTesting.savefig(BinPath + '\LDA_Testing_PY.png')

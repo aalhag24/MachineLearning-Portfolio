@@ -1,19 +1,18 @@
-# Principle Component Analysis
+# Linear Discriminant Analysis
 
 # Path to the file and Libraries
-BinPath = '/MachineLearning-Portfolio/9-Dimenstionality_Reduction/PCA/bin'
+BinPath = '9-Dimenstionality_Reduction/LDA/bin'
 FilePath = paste(BinPath, '/Wine.csv', sep='');
-setwd(BinPath)
-install.packages('caret', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-install.packages('e1071', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-install.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
-install.packages('ElemStatLearn', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+
+#install.packages('caret', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#install.packages('e1071', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#install.packages('ggplot2', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#install.packages('ElemStatLearn', repos = "http://cran.us.r-project.org", dependencies = TRUE)
+#install.packages('MASS', repos = "http://cran.us.r-project.org", dependencies = TRUE)
 
 library(caret, help, pos = 2, lib.loc = NULL)
 library(ggplot2)
-library(e1071)
 library(ElemStatLearn)
-
 
 # Import dataset
 dataset = read.csv(FilePath)
@@ -29,15 +28,17 @@ test_set = subset(dataset, split == FALSE)
 training_set[-14] = scale(training_set[-14])
 test_set[-14] = scale(test_set[-14])
 
-# Creating the pca
-pca = preProcess(x = training_set[-14], method = 'pca', pcaComp = 2)
-training_set = predict(pca, training_set)
-training_set = training_set[c(2,3,1)]
-test_set = predict(pca, test_set)
-test_set = test_set[c(2,3,1)]
+# Creating the LDA
+library(MASS)
+lda = lda(formula = Customer_Segment ~ ., data = training_set)
+training_set = as.data.frame(predict(lda, training_set))
+training_set = training_set[c(5,6,1)]
+test_set = as.data.frame(predict(lda, test_set))
+test_set = test_set[c(5,6,1)]
 
 # Fitting the SVM Classifier on the Training Set
-classifier = svm(formula = Customer_Segment ~ .,
+library(e1071)
+classifier = svm(formula = class ~ .,
                  data = training_set,
                  type = 'C-classification',
                  kernel = 'linear')
@@ -49,16 +50,17 @@ y_pred = predict(classifier, newdata = test_set[-3])
 cm = table(test_set[, 3], y_pred)
 
 # Visualizting the Training set results
+setwd(BinPath)
 png("PCA_Training_R.png") 
 set = training_set
 X1 = seq(min(set[, 1]) - 1, max(set[, 1]) + 1, by = 0.01)
 X2 = seq(min(set[, 2]) - 1, max(set[, 2]) + 1, by = 0.01)
 grid_set = expand.grid(X1, X2)
-colnames(grid_set) = c('PC1', 'PC2')
+colnames(grid_set) = c('x.LD1', 'x.LD2')
 y_grid = predict(classifier, newdata = grid_set)
 plot(set[, -3],
-     main = 'PCA (Training set)',
-     xlab = 'PC1', ylab = 'PC2',
+     main = 'LDA (Training set)',
+     xlab = 'LD1', ylab = 'LD2',
      xlim = range(X1), ylim = range(X2))
 contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
 points(grid_set, pch = '.', col = ifelse(y_grid == 2, 'deepskyblue', ifelse(y_grid == 1, 'springgreen3', 'tomato')))
@@ -71,11 +73,11 @@ set = test_set
 X1 = seq(min(set[, 1]) - 1, max(set[, 1]) + 1, by = 0.01)
 X2 = seq(min(set[, 2]) - 1, max(set[, 2]) + 1, by = 0.01)
 grid_set = expand.grid(X1, X2)
-colnames(grid_set) = c('PC1', 'PC2')
+colnames(grid_set) = c('x.LD1', 'x.LD2')
 y_grid = predict(classifier, newdata = grid_set)
 plot(set[, -3],
-     main = 'PCA (Testing set)',
-     xlab = 'PC1', ylab = 'PC2',
+     main = 'LDA (Testing set)',
+     xlab = 'LD1', ylab = 'LD2',
      xlim = range(X1), ylim = range(X2))
 contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
 points(grid_set, pch = '.', col = ifelse(y_grid == 2, 'deepskyblue', ifelse(y_grid == 1, 'springgreen3', 'tomato')))
