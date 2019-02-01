@@ -1,7 +1,7 @@
 # Linear Discriminant Analysis
 
 # Path to the file and Libraries
-BinPath = '9-Dimenstionality_Reduction/LDA/bin'
+BinPath = 'MachineLearning-Portfolio/9-Dimenstionality_Reduction/LDA/bin'
 FilePath = paste(BinPath, '/Wine.csv', sep='');
 
 #install.packages('caret', repos = "http://cran.us.r-project.org", dependencies = TRUE)

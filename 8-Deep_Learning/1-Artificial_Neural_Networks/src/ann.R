@@ -1,7 +1,7 @@
 # Artifical Neural Network
 
 # Path to the file and Libraries
-BinPath = paste(getwd(), '8-Deep_Learning/1-Artificial_Neural_Networks/bin', sep='/')
+BinPath = paste('MachineLearning-Portfolio/8-Deep_Learning/1-Artificial_Neural_Networks/bin', sep='/')
 FilePath = paste(BinPath, '/Churn_Modelling.csv', sep='')
 
 install.packages('caTools', repos = "http://cran.us.r-project.org", dependencies = TRUE)

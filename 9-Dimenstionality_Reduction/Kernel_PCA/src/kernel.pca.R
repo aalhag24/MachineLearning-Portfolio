@@ -1,7 +1,7 @@
 # Principle Component Analysis
 
 # Path to the file and Libraries
-BinPath = '9-Dimenstionality_Reduction/Kernel_PCA/bin'
+BinPath = 'MachineLearning-Portfolio/9-Dimenstionality_Reduction/Kernel_PCA/bin'
 FilePath = paste(BinPath, '/Social_Network_Ads.csv', sep='');
 
 install.packages('caret', repos = "http://cran.us.r-project.org", dependencies = TRUE)
