@@ -13,9 +13,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-from sklearn.impute import SimpleImputer
+from pathlib import Path
 
-# Check that the gpu/cpu is being used properly
+cwd = Path().resolve()
+
+# Check that the gpu/cpu is properly being used
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
 
@@ -51,18 +53,24 @@ X_test = sc_X.transform(X_test)
 # Creating the ANN
 from keras.models import Sequential
 from keras.layers import Dense
+def build_classifier(Optimizer = 'adam'):
+    classifier = Sequential()
+    classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu', input_dim = 11))
+    classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))
+    classifier.add(Dense(output_dim = 1, init = 'uniform', activation = 'sigmoid'))
+    classifier.compile(optimizer = Optimizer, loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 # Initialzing the ANN
 classifier = Sequential()
 
 # Add the input and hidden layer 
-classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu', input_dim = 11))
+classifier.add(Dense(activation='relu', input_dim=11, units=6, kernel_initializer='uniform'))
 
 # Add the second hidden layer
-classifier.add(Dense(output_dim = 6, init = 'uniform', activation = 'relu'))
+classifier.add(Dense(activation='relu', units=6, kernel_initializer='uniform'))
 
 # Add the output layer
-classifier.add(Dense(output_dim = 1, init = 'uniform', activation = 'sigmoid'))
+classifier.add(Dense(activation = 'sigmoid', units = 1, kernel_initializer = 'uniform'))
 
 # Compiling
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
@@ -74,7 +82,32 @@ classifier.fit(X_train, Y_train, batch_size = 10, epochs = 100)
 Y_pred = classifier.predict(X_test)
 Y_pred = (Y_pred > 0.5)
 
+# Predicted a new test parameter(Observation)
+new_pred = classifier.predict(sc_X.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
+new_pred = (new_pred > 0.5)
+
 # Creating the Confusion Matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(Y_test, Y_pred)
-acc = 1703/2000
+
+# Evaluating the ANN
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score
+classifier = KerasClassifier(build_fn = build_classifier, batch_size = 10, nb_epoch = 100)
+accuracies = cross_val_score(estimator = classifier, X = X_train, y = Y_train, cv = 10)
+mean = accuracies.mean()
+std = accuracies.std()
+
+# Improving the ANN, Dropout Regularization to reduce overfitting
+from sklearn.model_selection import GridSearchCV
+classifier = KerasClassifier(build_fn = build_classifier)
+parameters = {'batch_size': [25, 32], 
+              'nb_epoch': [50, 100, 250, 500],
+              'optimizer': ['adam', 'rmsprop']}
+grid_search = GridSearchCV(estimator = classifier,
+                           param_grid = parameters,
+                           scoring = 'accuracy',
+                           cv = 10)
+grid_search = grid_search.fit(X_train, Y_train)
+best_param = grid_search.best_params_
+best_acc = grid_search.best_score_
