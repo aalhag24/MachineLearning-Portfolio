@@ -19,6 +19,8 @@ from keras.layers import Convolution2D
 from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
+from keras.layers import Dropout
+from keras.preprocessing import image
 
 # Check that the gpu/cpu is being used properly
 from tensorflow.python.client import device_lib
@@ -28,6 +30,7 @@ print(device_lib.list_local_devices())
 BinPath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'bin'))
 TrainingData = BinPath + '/dataset/training_set';
 TestingData = BinPath + '/dataset/test_set';
+SinglePrediction = BinPath + '/single_prediction';
 
 # Initialising the CNN
 classifier = Sequential()
@@ -48,6 +51,7 @@ classifier.add(Flatten())
 # Create the Layers
 classifier.add(Dense(output_dim = 128, 
                      activation = 'relu'))
+classifier.add(Dropout(0.5))
 classifier.add(Dense(output_dim = 1, 
                      activation = 'sigmoid'))
 
@@ -75,8 +79,30 @@ test_set = test_datagen.flow_from_directory(TestingData,
                                             class_mode = 'binary')
 
 # Fitting the CNN classifier to the data
+
 classifier.fit_generator(training_set,
                          samples_per_epoch = 8000,
-                         nb_epoch = 25,
+                         nb_epoch = 100,
                          validation_data = test_set,
                          nb_val_samples = 2000)
+
+# Predicting single input
+print('Single Prediction 1')
+test_image = image.load_img(SinglePrediction + '/cat_or_dog_1.jpg', target_size = (64,64))
+test_image = image.img_to_array(test_image)
+test_image = np.expand_dims(test_image, axis = 0)
+result = classifier.predict(test_image)
+if result[0][0] == 1:
+    print('dog')
+else:
+    print('cat')
+    
+print('Single Prediction 2')
+test_image = image.load_img(SinglePrediction + '/cat_or_dog_2.jpg', target_size = (64,64))
+test_image = image.img_to_array(test_image)
+test_image = np.expand_dims(test_image, axis = 0)
+result = classifier.predict(test_image)
+if result[0][0] == 1:
+    print('dog')
+else:
+    print('cat')
